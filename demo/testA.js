@@ -1,5 +1,5 @@
 import React from "react"
-import Component from '../component'
+import Component from '../src/component'
 import actions from './actions'
 
 export default class TestA extends Component {
@@ -31,7 +31,7 @@ export default class TestA extends Component {
 function Reduce( action, assign) {
     switch(action.type) {
         case 'A': 
-            return  assign( {
+            return  assign({
                 name: 'chenxuehui'
             })
         case 'B':

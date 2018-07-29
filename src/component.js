@@ -49,20 +49,46 @@ export default class Component extends React.Component {
 Component.reducer = []
 
 
-export class RxComponent extends React.Component {
-   
+
+
+
+
+export class RxComponent extends React.Component {  
     constructor(props) {
         super(props);
     }
 
-    createStore(actions) {
-        const subject = new Subject()
-        Object.keys(actions).map((key) => {
-            this[key] = function() {
-                subject.next(arguments[0])
-            }
-            actions[key].call(this, subject)
+    syncSetState = (state) => {
+        const me = this
+        return new Promise(function(reslove) {
+            me.setState(state, () => {
+                reslove(me.state)
+            })
         })
     }
-}
+    
+    dispatch = async (action) => {
+        for(let re of RxComponent.reducer) {
+            await re(action)
+        }
+    }
+
+    createStore(actions, fn) {
+        Object.keys(actions).map((key) => {
+            const subject = new Subject()
+            this[key] = function() {
+                subject.next(arguments[0])
+                return subject
+            }
+            actions[key].call(this, subject, this.dispatch)
+        })
+
+        if(fn) {
+            RxComponent.reducer.push( async (action) => {
+                await fn.call(this, action, this.syncSetState)
+            } )
+        }
+    }
+} 
+RxComponent.reducer = []
 
