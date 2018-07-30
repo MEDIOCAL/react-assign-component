@@ -16,28 +16,23 @@ export class AssignComponent extends React.Component {
         }
     }
     createStore = async (...rest) => {
-        if(rest.length === 1) {
-            if(typeof rest[0] === 'function') {
-                let reducer = rest[0]
+        let l = 2
+        while(l > 0 && rest.length > 0) {
+            let arg = rest.shift()
+            
+            if(typeof arg === 'function') {
                 AssignComponent.reducer.push(async (action) => {
-                    await reducer(action, this.syncSetState)
+                    await arg(action, this.syncSetState)
                 })
-            } else {
-                let dispatchs = rest[0]
-               
-                for(let key in dispatchs) {
-                    this[key] =  dispatchs[key](this.dispatch)
+            } else if(typeof arg === 'object') {
+                for(let key in arg) {
+                    this[key] =  arg[key](this.dispatch)
                 }
+            } else {
+                throw new Error('1')
             }
-        } else if(rest.length === 2) {
-            let reducer = rest[0]
-            let dispatchs = rest[1]
-            AssignComponent.reducer.push(async (action) => {
-                await reducer(action, this.syncSetState)
-            })
-            for(let key in dispatchs) {
-                this[key] =  dispatchs[key](this.dispatch)
-            }
+
+            l--
         }
         return AssignComponent.reducer
     }

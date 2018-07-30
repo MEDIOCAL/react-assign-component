@@ -18,20 +18,25 @@ export class AssignRxComponent extends React.Component {
         }
     }
 
-    createStore(actions, fn) {
-        Object.keys(actions).map((key) => {
-            const subject = new Subject()
-            this[key] = function() {
-                subject.next(arguments[0])
-                return subject
+    createStore(...rest) {
+        let l = 2
+        while(l > 0 && rest.length > 0) {
+            let arg = rest.shift()
+            if(typeof arg === 'object') {
+                Object.keys(arg).map((key) => {
+                    const subject = new Subject()
+                    this[key] = function() {
+                        subject.next(arguments[0])
+                        return subject
+                    }
+                    arg[key].call(this, subject, this.dispatch)
+                })
+            } else if(typeof arg === 'function') {
+                AssignRxComponent.reducer.push( async (action) => {
+                    await arg.call(this, action, this.syncSetState)
+                } )
             }
-            actions[key].call(this, subject, this.dispatch)
-        })
-
-        if(fn) {
-            AssignRxComponent.reducer.push( async (action) => {
-                await fn.call(this, action, this.syncSetState)
-            } )
+            l--
         }
     }
 } 
