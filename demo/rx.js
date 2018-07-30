@@ -1,7 +1,7 @@
 import React from "react"
-import { RxComponent } from '../src/component'
+import { AssignRxComponent } from '../src'
 
-export default class Rxc extends RxComponent  {
+export default class Rxc extends AssignRxComponent  {
     constructor() {
         super(...arguments)
         

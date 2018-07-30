@@ -1,7 +1,7 @@
 import React from "react"
-import Component from '../src/component'
+import { AssignComponent } from '../src'
 
-export default class TestB extends Component {
+export default class TestB extends AssignComponent {
     constructor(props) {
         super(props)
         this.state ={

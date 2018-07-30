@@ -1,10 +1,10 @@
 import React from "react"
-import Component from '../src/component'
+import { AssignComponent } from '../src'
 import TestA from './testA'
 import TestB from './testB'
 import Rxc from './rx'
 
-export default class Test extends Component {
+export default class Test extends AssignComponent {
     constructor(props) {
         super(props)
     }
