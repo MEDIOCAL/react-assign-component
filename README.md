@@ -51,7 +51,7 @@ function assigner(action, assign) {
    switch(action.type) {
         case 'A': 
             return  assign({
-                name: 'chenxuehui'
+                name: 'jk'
             })
         case 'B':
             return  assign({
@@ -65,7 +65,7 @@ function assigner(action, assign) {
 
 ```
 import React from "react"
-import { AssignRxComponent } from '../src'
+import { AssignRxComponent } from 'react-assign-component'
 
 export default class Rxc extends AssignRxComponent  {
     constructor() {
@@ -98,7 +98,7 @@ export default class Rxc extends AssignRxComponent  {
     render() {
         return  <div>
                     <div onClick={this.change}>{ this.state.name } -- {this.state.age}</div>
-                    <div onClick={this.changeByAction}>actions改变name-age</div>
+                    <div onClick={this.changeByAction}>actions change name-age</div>
                 </div>
     }
     
