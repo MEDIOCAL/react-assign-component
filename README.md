@@ -21,7 +21,7 @@ class TestA extends AssignComponent {
             age: 17,
             height: 180,
         }
-        this.createStore(assigner, actions)
+        this.createStore(Assigner, actions)
     }
 
     change = async () => {
@@ -50,7 +50,7 @@ const actions = {
   }
 }
 
-function assigner(action, assign) {
+function Assigner(action, assign) {
    switch(action.type) {
         case 'A': 
             return  assign({
@@ -78,7 +78,7 @@ export default class Rxc extends AssignRxComponent  {
             name: 'rx',
             age: 19
         }
-        this.createStore(actions, assigner)
+        this.createStore(actions, Assigner)
     }
     change = () =>{
         this.changName({
@@ -139,7 +139,7 @@ const actions = {
 }
 
 
-function assigner(action, assign) {
+function Assigner(action, assign) {
     switch(action.type) {
         case 'RXJS': 
             return  assign( {
