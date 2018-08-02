@@ -42,7 +42,10 @@ const actions = {
   a: function(dispatch) {
     return async (action) => {
         let res = await axios.post('...', action)
-        dispatch(res)
+        dispatch({
+            type: 'A',
+            data: res.data
+        })
     }
   }
 }
