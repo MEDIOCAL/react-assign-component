@@ -20,6 +20,7 @@ export default class TestA extends AssignComponent {
         this.a({type:'D'})
     }
     render() {
+        console.log(this)
         return  <div>
                     <div onClick={this.change}>{this.state.name}</div>
                     <div onClick={this.changeAge}>{this.state.age}---{this.state.height}</div>

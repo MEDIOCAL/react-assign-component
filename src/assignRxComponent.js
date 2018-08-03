@@ -1,8 +1,8 @@
 import React from "react"
 import { Subject } from "rxjs"
 
+React.Component.store = []
 export class AssignRxComponent extends React.Component {  
-
     syncSetState = (state) => {
         const me = this
         return new Promise(function(reslove) {
@@ -13,7 +13,7 @@ export class AssignRxComponent extends React.Component {
     }
     
     dispatch = async (action) => {
-        for(let re of AssignRxComponent.reducer) {
+        for(let re of AssignRxComponent.store) {
             await re(action)
         }
     }
@@ -32,13 +32,16 @@ export class AssignRxComponent extends React.Component {
                     arg[key].call(this, subject, this.dispatch)
                 })
             } else if(typeof arg === 'function') {
-                AssignRxComponent.reducer.push( async (action) => {
+                this.storeIndex =  AssignRxComponent.store.push( async (action) => {
                     await arg.call(this, action, this.syncSetState)
-                } )
+                } ) - 1
             }
             l--
         }
     }
+
+    componentWillUnmount = () => {
+        AssignComponent.store.splice(this.storeIndex, 1)
+    }
 } 
 
-AssignRxComponent.reducer = []

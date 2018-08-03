@@ -1,5 +1,7 @@
 import React from "react"
 
+React.Component.store = []
+
 export class AssignComponent extends React.Component {
     syncSetState = (state) => {
         const me = this
@@ -11,7 +13,7 @@ export class AssignComponent extends React.Component {
     }
     
     dispatch = async (action) => {
-        for(let re of AssignComponent.reducer) {
+        for(let re of AssignComponent.store) {
             await re(action)
         }
     }
@@ -21,7 +23,7 @@ export class AssignComponent extends React.Component {
             let arg = rest.shift()
             
             if(typeof arg === 'function') {
-                this.reducerIndex = AssignComponent.reducer.push(async (action) => {
+                this.storeIndex = AssignComponent.store.push(async (action) => {
                     await arg(action, this.syncSetState)
                 }) - 1
             } else if(typeof arg === 'object') {
@@ -34,16 +36,15 @@ export class AssignComponent extends React.Component {
 
             l--
         }
-        return AssignComponent.reducer
+        return AssignComponent.store
     }
 
     componentWillUnmount = () => {
-        AssignComponent.reducer.splice(this.reducerIndex, 1)
+        AssignComponent.store.splice(this.storeIndex, 1)
     }
     
 }
 
-AssignComponent.reducer = []
 
 
 
