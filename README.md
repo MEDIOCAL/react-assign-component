@@ -64,7 +64,7 @@ function Assigner(action, assign) {
 }
 ```
 
-### AssignRXComponent
+### AssignRxComponent
 
 ```
 import React from "react"
