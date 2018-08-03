@@ -21,9 +21,9 @@ export class AssignComponent extends React.Component {
             let arg = rest.shift()
             
             if(typeof arg === 'function') {
-                AssignComponent.reducer.push(async (action) => {
+                this.reducerIndex = AssignComponent.reducer.push(async (action) => {
                     await arg(action, this.syncSetState)
-                })
+                }) - 1
             } else if(typeof arg === 'object') {
                 for(let key in arg) {
                     this[key] =  arg[key](this.dispatch)
@@ -36,6 +36,11 @@ export class AssignComponent extends React.Component {
         }
         return AssignComponent.reducer
     }
+
+    componentWillUnmount = () => {
+        AssignComponent.reducer.splice(this.reducerIndex, 1)
+    }
+    
 }
 
 AssignComponent.reducer = []
